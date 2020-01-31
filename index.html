@@ -1,0 +1,28 @@
+<head>
+  <body>
+    <h1>Video Calcultor</h1>
+    <form>
+      <div>
+        <label>Slect a video</label>
+        <input type="file" accept="video/*">
+        <button type = "submit">get video length</button>
+      </div>
+    </form>
+    <h1 id="result"></h1>
+  </body>
+  <script type="text/javascript">
+
+    const electron = require('electron');
+    const {ipcRenderer} = electron;
+
+    document.querySelector('form').addEventListener('submit',event)=>{
+      event.preventDefualt()
+      const {path} = document.querySelector('input').file[0];
+
+     ipcRenderer.send('vidoe:submit', path)
+    }
+     ipcRenderer.on('video:metadata',(event,duration)=>{
+       document.querySelector('#result').innerHTML = `Video is ${duration} seconds`
+     }
+    </script>
+</head>
